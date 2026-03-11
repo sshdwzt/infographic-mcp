@@ -1,13 +1,15 @@
-# Design Inspiration MCP Server
+# Infographic MCP Server
 
-A Python MCP server that lets AI assistants search for design inspiration using the [Serper API](https://serper.dev). Find UI/UX ideas, images, color palettes, and creative references — all from within your AI workflow.
+A Python MCP server that lets AI assistants search for infographic images using the [Serper API](https://serper.dev). Find data visualizations, statistical graphics, and visual explainers — with smart filters optimized for infographic content.
 
 ## Features
 
-- **`get_design_inspiration`** — Search for design-related web pages, articles, and portfolios
-- **`search_design_images`** — Search specifically for design images and visual references
-- SSE transport for real-time communication with MCP clients
-- Graceful error handling with clear, actionable messages
+- **`search_infographics`** — Find web pages, articles, and galleries featuring infographics
+- **`search_infographic_images`** — Search for infographic images with size and aspect ratio filters
+- **`search_infographics_by_source`** — Target specific platforms like Visual Capitalist, Behance, or Dribbble
+- Automatic "infographic" context injection on all queries
+- Large image + tall aspect ratio filters by default (how most infographics are shaped)
+- SSE transport for real-time MCP client communication
 
 ## Quick Start
 
@@ -43,29 +45,48 @@ http://<your-server-address>:8000/sse
 
 ## Tools
 
-### `get_design_inspiration`
+### `search_infographics`
+
+Search for infographic-related web pages and articles.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `query` | string | required | What to search for |
+| `query` | string | required | Topic to find infographics about |
 | `num_results` | integer | 10 | Number of results (1–20) |
 
-Example queries: `"modern dashboard UI"`, `"color palette for food app"`, `"minimalist logo ideas"`
+Example queries: `"climate change"`, `"social media marketing stats"`, `"coffee production worldwide"`
 
-### `search_design_images`
+### `search_infographic_images`
+
+Search for infographic images with optimized size and aspect ratio filters.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `query` | string | required | What images to search for |
+| `query` | string | required | Topic to find infographic images for |
+| `num_results` | integer | 10 | Number of results (1–20) |
+| `aspect_ratio` | string | `"tall"` | Image shape: `"tall"`, `"wide"`, `"square"`, or `"panoramic"` |
+
+Example queries: `"nutrition facts"`, `"startup funding process"`, `"global warming statistics"`
+
+### `search_infographics_by_source`
+
+Search for infographics from a specific curated platform.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `query` | string | required | Topic to search for |
+| `source` | string | required | Platform name (see list below) |
 | `num_results` | integer | 10 | Number of results (1–20) |
 
-Example queries: `"flat illustration style"`, `"dark mode UI screenshots"`, `"gradient backgrounds"`
+**Supported sources:** `visual capitalist`, `behance`, `dribbble`, `information is beautiful`, `cool infographics`, `venngage`, `canva`, `statista`, `pinterest`, `visme`
+
+Example: search for `"economy"` on `"visual capitalist"`
 
 ## Project Structure
 
 ```
-server.py        # MCP server — tool definitions and API integration
-config.py        # Configuration — API keys, server settings
+server.py        # MCP server — tool definitions and Serper API integration
+config.py        # Configuration — API keys, filters, curated sources
 pyproject.toml   # Project metadata and dependencies
 ```
 
@@ -76,10 +97,12 @@ All settings live in `config.py`:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SERPER_API_KEY` | from env | Your Serper API key |
-| `SERPER_API_URL` | `https://google.serper.dev/search` | Serper search endpoint |
-| `DEFAULT_NUM_RESULTS` | `10` | Default number of results per query |
-| `SERVER_HOST` | `0.0.0.0` | Server bind address |
-| `SERVER_PORT` | `8000` | Server port |
+| `SERPER_SEARCH_URL` | `https://google.serper.dev/search` | Web search endpoint |
+| `SERPER_IMAGES_URL` | `https://google.serper.dev/images` | Image search endpoint |
+| `DEFAULT_NUM_RESULTS` | `10` | Results per query |
+| `DEFAULT_IMAGE_SIZE` | `"l"` (large) | Image size filter |
+| `DEFAULT_ASPECT_RATIO` | `"t"` (tall) | Default aspect ratio for infographics |
+| `INFOGRAPHIC_SOURCES` | dict | Curated source name → domain mapping |
 
 ## Troubleshooting
 
